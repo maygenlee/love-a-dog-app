@@ -1,3 +1,0 @@
-i should be able to see this line of text on git
-
-i should NOT be able to see this line of text on git
