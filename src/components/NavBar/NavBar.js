@@ -31,7 +31,7 @@ export default function NavBar({ links, user }) {
         <span className="home-link active">
           <Link to={`/`}>
             <span>
-              <img src={Icon} width="35" />
+              <img src={Icon} width="40" />
             </span>
           </Link>
         </span>
@@ -46,7 +46,7 @@ export default function NavBar({ links, user }) {
           }
         })}
 
-        <span className="links fancy-hover">Another Page</span>
+        <span className="links fancy-hover">A</span>
         <Dropdown text="Menu" contents={dropdownOptions} />
       </div>
 
@@ -77,7 +77,7 @@ export default function NavBar({ links, user }) {
         <span className="home-link fancy-hover active">
           <Link to={`/`}>
             <span>
-              <img src={Icon} width="30" />
+              <img src={Icon} width="35" />
             </span>
           </Link>
         </span>
