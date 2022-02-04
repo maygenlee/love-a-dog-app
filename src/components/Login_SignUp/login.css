@@ -1,0 +1,51 @@
+.login {
+  background-color: white;
+  height: 100%;
+  font-size: 20pt;
+}
+.login label {
+  display: inline-block;
+  width: 5em;
+  text-align: right;
+  margin-right: 0.5rem;
+}
+.login input {
+  font-size: 20pt;
+}
+.login button {
+  border: none;
+  cursor: pointer;
+}
+.login button[type="submit"] {
+  margin-top: 1rem;
+  font-weight: 900;
+  background-color: cornflowerblue;
+  font-size: 24pt;
+}
+.login button[type="button"] {
+  background-color: rgb(150, 183, 245);
+  font-size: 19pt;
+}
+.login button[type="submit"]:hover {
+  background-color: rgb(7, 84, 228);
+}
+.login button[type="button"]:hover {
+  background-color: rgb(57, 122, 243);
+  font-weight: 800;
+}
+
+.login .email-taken {
+  outline-color: red;
+}
+
+.login .email {
+  position: relative;
+}
+
+.login .error-message {
+  color: red;
+  font-size: 12pt;
+  position: absolute;
+  right: 1em;
+  bottom: 100%;
+}
