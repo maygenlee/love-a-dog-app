@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./nav.css";
 import Icon from "../Images/Icon.JPG";
+import { Context } from "../../App";
+import { useLocalStorage } from "../../services/localStorage.service";
 
-export default function NavBar({ links, user }) {
+export default function NavBar({ links }) {
   const [windowSize, setWindowSize] = useState({});
   const [isMobileBarOpen, setIsMobileBarOpen] = useState(false);
+  const { state } = useContext(Context);
+  const localStorage = useLocalStorage();
 
-  const dropdownOptions = [{ text: "something" }, { text: "another" }];
+  const dropdownOptions = [{}, {}];
 
   useEffect(() => {
     function handleResize() {
@@ -46,15 +50,31 @@ export default function NavBar({ links, user }) {
           }
         })}
 
-        <span className="links fancy-hover">A</span>
-        <Dropdown text="Menu" contents={dropdownOptions} />
+        <span className="links fancy-hover"></span>
+        <Dropdown text="" contents={dropdownOptions} />
       </div>
 
       {/*search bar here ie <SearchBar /> */}
 
       <div>
-        {user ? (
-          <button type="button">User</button>
+        {state.user ? (
+          <>
+            <Link to={`/user/${state.user.id}`}>
+              <button type="button" className="primary">
+                Dog House
+              </button>
+            </Link>
+            <Link to={`/login`}>
+              <button
+                type="button"
+                onClick={() => {
+                  localStorage.removeActiveUser();
+                }}
+              >
+                Logout
+              </button>
+            </Link>
+          </>
         ) : (
           <>
             <Link to={`/login`}>
@@ -94,8 +114,24 @@ export default function NavBar({ links, user }) {
       {isMobileBarOpen && (
         <div className="right-menu">
           <div className="nav-buttons">
-            {user ? (
-              <button type="button">User</button>
+            {state.user ? (
+              <>
+                <Link to={`/user/${state.user.id}`}>
+                  <button type="button" className="primary">
+                    Dog House
+                  </button>
+                </Link>
+                <Link to={`/login`}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.removeActiveUser();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </Link>
+              </>
             ) : (
               <>
                 <Link to={`/login`}>

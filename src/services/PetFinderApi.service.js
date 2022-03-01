@@ -4,21 +4,20 @@ const { key, secret } = require("../assets/api/petfinder.config.json");
 
 const PETFINDER_API = "https://api.petfinder.com/v2";
 
+var isAuthTokenAttached = false;
+
 var api = axios.create({
-  baseURL: PETFINDER_API
+  baseURL: PETFINDER_API,
+  headers: { "content-type": "application/json" },
 });
-
-getNewToken();
-
-function usePetFinderApi() {
-  return {
-    getDogById,
-    getNewToken,
-  };
-}
+console.log("pet finder api init");
 
 function getDogById(id) {
   return api.get(`/animals/${id}`);
+}
+
+function getLotsOfDogs(zip) {
+  return api.get(`/animals?type=Dog&location=29412&distance=5`);
 }
 
 function getNewToken() {
@@ -27,18 +26,28 @@ function getNewToken() {
 
   // console.log(new axios.AxiosRequestConfig())
   // using the 'axios' instance. Not the 'api' instance because the api
-  axios
-    .post(url, data)
-    .then((res) => {
-      updateAuthToken(res.data.access_token);
-    })
-    .catch((err) => {
-      console.error(err, "error getting token");
-    });
+  console.log("getting token");
+  return axios.post(url, data);
 }
 
 function updateAuthToken(token) {
   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  isAuthTokenAttached = true;
+}
+
+function isReady() {
+  return isAuthTokenAttached;
+}
+
+function usePetFinderApi() {
+  // if we have a token -> return this
+  return {
+    isReady,
+    getDogById,
+    getNewToken,
+    updateAuthToken,
+    getLotsOfDogs,
+  };
 }
 
 export { usePetFinderApi };

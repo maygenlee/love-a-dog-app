@@ -1,21 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../App";
+import { useLocalStorage } from "../../services/localStorage.service";
+import { useApi } from "../../services/axios.service";
 
 export default function SignUpPage() {
-  const { http, localStorageService } = useContext(Context);
+  const { state, setState } = useContext(Context);
   var navigate = useNavigate();
+  var api = useApi();
+  var localStorage = useLocalStorage();
 
   function attemptSignUp(user) {
-    http
+    api
       .createNewUser(user)
       .then((res) => {
         const user = res.data.user;
-        console.log(res);
-        localStorageService.saveUser(user);
+        localStorage.saveUser(user);
+        setState({ ...state, user });
         navigate(`/user/${user.id}`);
-        // navigate away to user's page -> useNavigate ?
       })
       .catch((err) => {
         console.error(err);
@@ -25,7 +27,7 @@ export default function SignUpPage() {
   return (
     <div className="login">
       <h1>Sign Up Now!</h1>
-      <SignUpForm onSubmit={attemptSignUp} http={http} />
+      <SignUpForm onSubmit={attemptSignUp} api={api} />
       <hr />
       <Link to="/login">
         <button type="button">Log In</button>
@@ -34,8 +36,14 @@ export default function SignUpPage() {
   );
 }
 
-function SignUpForm({ onSubmit, http }) {
-  var [user, setUser] = useState({ email: "", password: "" });
+function SignUpForm({ onSubmit, api }) {
+  var [user, setUser] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    birthday: "",
+  });
   const [isEmailTaken, setIsEmailTaken] = useState(false);
 
   function handleChange(e) {
@@ -57,14 +65,14 @@ function SignUpForm({ onSubmit, http }) {
 
   useEffect(() => {
     if (user.email) {
-      http
+      api
         .getUserByEmail(user.email)
-        .then((res) => {})
+        .then((res) => {
+          setIsEmailTaken(true);
+        })
         .catch((err) => {
-          if (err.response.status == 404) {
+          if (err.response.status === 404) {
             setIsEmailTaken(false);
-          } else if (err.response.status == 401) {
-            setIsEmailTaken(true);
           } else {
             console.err(err);
           }
@@ -76,6 +84,39 @@ function SignUpForm({ onSubmit, http }) {
     <div>
       <div className="form">
         <form onSubmit={handleSubmit}>
+          <div className="firstName">
+            <label htmlFor="firstName"> First Name: </label>
+            <input
+              type="text"
+              name="firstName"
+              value={user.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+              required
+            />
+          </div>
+          <div className="lastName">
+            <label htmlFor="lastName"> Last Name: </label>
+            <input
+              type="text"
+              name="lastName"
+              value={user.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+              required
+            />
+          </div>
+          <div className="birthday">
+            <label htmlFor="birthday"> Birthday: </label>
+            <input
+              type="text"
+              name="birthday"
+              value={user.birthday}
+              onChange={handleChange}
+              placeholder="YYYY-MM-DD"
+              required
+            />
+          </div>
           <div className="email">
             {isEmailTaken && (
               <div className="error-message">* Email is already taken</div>

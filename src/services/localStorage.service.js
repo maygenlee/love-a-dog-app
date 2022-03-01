@@ -1,12 +1,17 @@
-exports.saveUser = (user) => {
-  const value = JSON.stringify(user);
-  localStorage.setItem("user", value);
+const localStorageService = {
+  saveUser: (user) => {
+    const value = JSON.stringify(user);
+    localStorage.setItem("activeUser", value);
+  },
+  getActiveUser: () => {
+    return JSON.parse(localStorage.getItem("activeUser"));
+  },
+  removeActiveUser: () => {
+    localStorage.removeItem("activeUser");
+  },
 };
 
-exports.getActiveUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
-};
-
-exports.removeActiveUser = () => {
-  localStorage.removeItem("user");
-};
+function useLocalStorage() {
+  return localStorageService;
+}
+export { useLocalStorage };

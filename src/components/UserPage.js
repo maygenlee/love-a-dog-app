@@ -1,9 +1,11 @@
 import React from "react";
+import NavBar from "./NavBar/NavBar";
 
 export default function UserPage() {
   return (
     <div>
-      <p>This will be the user's dog house</p>
+      <NavBar />
+      <p>Welcome to your dog house!</p>
     </div>
   );
 }

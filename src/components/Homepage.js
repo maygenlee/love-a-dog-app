@@ -1,49 +1,68 @@
 import React from "react";
-import DogCard from "./DogCard";
+import DogCard from "./DogCard/DogCard";
 import NavBar from "./NavBar/NavBar";
-import SearchDogs from "./SearchDogs";
-import ZipCodeEntry from "./ZipCodeEntry";
 import { useEffect, useState } from "react";
 import { usePetFinderApi } from "../services/PetFinderApi.service";
 import "../App.css";
-import SignUpPage from "./Login_SignUp/SignUpPage";
 
 export default function Homepage() {
   var [dogs, setDogs] = useState([]);
+  var [zip, setZip] = useState("");
 
-  function GetAllDogs() {
-    const petApi = usePetFinderApi();
+  const petApi = usePetFinderApi();
+  console.log("pet api responded");
 
-    useEffect(() => {
-      petApi
-        .getDogById(54421012)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err.response);
-          // if(err.response.status)
-        });
-    }, []);
+  const handleSubmit = (e) => {
+    setZip(e.target);
+  };
 
-    return <p>To Be Completed March 1st</p>;
+  function getDogs(zip) {
+    console.log(petApi);
+    petApi
+      .getLotsOfDogs(zip)
+      .then((res) => {
+        console.log(res.data);
+        setDogs(res.data.animals);
+      })
+      .catch((err) => {
+        //console.log(err, err.response);
+        // if(err.response.status)
+      });
   }
 
-  /*useEffect(() => {
-    GetAllDogs();
-  }, []); */
+  useEffect(() => {
+    if (petApi.isReady()) {
+      // status is good
+      getDogs();
+    } else {
+      // need a token
+      petApi
+        .getNewToken()
+        .then((res) => {
+          petApi.updateAuthToken(res.data.access_token);
+          // now send request
+          getDogs();
+        })
+        .catch((err) => {
+          console.error(err, "error getting token");
+        });
+    }
+  }, []);
 
   return (
-    <div className="dogs">
-      <NavBar />
-      <p>This app is in development</p>
+    <div>
+      <div className="dogs">
+        <NavBar />
+      </div>
+      <h1>Enter a zipcode to see adoptable dogs near you!</h1>
+      <form className="zip-input" onSubmit={handleSubmit}>
+        <input type="text" placeholder="Enter Zip Code" name="location" />
+      </form>
+      <div>
+        {dogs.map((d) => (
+          <DogCard key={d.id} {...d} />
+        ))}
+      </div>
     </div>
   );
 }
-/*{<ZipCodeEntry />
-      <SearchDogs />
-      <DogCard />} 
-      {dogs.map((dog) => (
-        <DogCard key={dog.id} {...dog} />
-      ))}
-      */

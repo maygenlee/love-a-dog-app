@@ -1,22 +1,29 @@
 const axios = require("axios");
 const URL = `http://localhost:8080/api`;
 
-exports.login = (user) => {
-  return axios.post(`${URL}/users/login`, user);
+const api = {
+  login: (user) => {
+    return axios.post(`${URL}/login`, user);
+  },
+  getUserByEmail: (email) => {
+    return axios.get(`${URL}/user/${email}`);
+  },
+  createNewUser: (user) => {
+    return axios.post(`${URL}/signup`, user);
+  },
+  updateUser: (user) => {
+    return axios.put(`${URL}/users/${user.id}`, user);
+  },
+  getLovedDogsByUserId: (userId) => {
+    return axios.get(`${URL}/dogs/lovedList/${userId}`);
+  },
+  addDogToLovedList: (dog) => {
+    return axios.post(`${URL}/dogs`, dog);
+  },
 };
 
-exports.createNewUser = (user) => {
-  return axios.post(`${URL}/users`, user);
-};
+function useApi() {
+  return api;
+}
 
-const updateUser = (user) => {
-  return axios.put(`${URL}/users/${user.id}`, user);
-};
-
-exports.getSavedListByUserId = (userId) => {
-  return axios.get(`${URL}/dogs/savedList/${userId}`);
-};
-
-exports.getLovedListByUserId = (userId) => {
-  return axios.get(`${URL}/dogs/lovedList/${userId}`);
-};
+export { useApi };
