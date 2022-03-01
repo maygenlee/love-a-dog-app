@@ -1,0 +1,12 @@
+.dog-card-root img {
+  width: 200px;
+}
+.dog-card-root {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 1rem;
+  row-gap: 1.5rem;
+}
+.dog-card {
+  display: block;
+}
