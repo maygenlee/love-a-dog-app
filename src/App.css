@@ -12,3 +12,7 @@
   background-color: var(--lightest);
   color: var(--darker);
 }
+
+.zip-input {
+  text-align: center;
+}

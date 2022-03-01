@@ -5,28 +5,26 @@ import LoginPage from "./components/Login_SignUp/LoginPage";
 import SignUpPage from "./components/Login_SignUp/SignUpPage";
 import UserPage from "./components/UserPage";
 import { createContext, useEffect, useState } from "react";
+import { useLocalStorage } from "./services/localStorage.service";
 
-const axiosService = require("./services/axios.service");
-const localStorageService = require("./services/localStorage.service");
-
-export const Context = createContext();
+export var Context = createContext();
 
 function App() {
   const [state, setState] = useState({
     user: undefined,
   });
+  const localStorage = useLocalStorage();
 
   useEffect(() => {
-    var activeUser = localStorageService.getActiveUser();
+    var activeUser = localStorage.getActiveUser();
     if (activeUser) {
       setState({ ...state, user: activeUser });
     }
   }, []);
+
   return (
     <Context.Provider
       value={{
-        http: axiosService,
-        localStorageService,
         state,
         setState,
       }}
@@ -34,11 +32,10 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Homepage />}>
-              <Route path="login" element={<LoginPage />}></Route>
-              <Route path="signup" element={<SignUpPage />}></Route>
-              <Route path="user" element={<UserPage />}></Route>
-            </Route>
+            <Route path="/" element={<Homepage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/signup" element={<SignUpPage />}></Route>
+            <Route path="/user/:userId" element={<UserPage />}></Route>
             <Route
               path="*"
               element={<div>404 - page does not exist</div>}
