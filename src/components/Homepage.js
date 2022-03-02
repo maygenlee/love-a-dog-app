@@ -10,16 +10,10 @@ export default function Homepage() {
   var [zip, setZip] = useState("");
 
   const petApi = usePetFinderApi();
-  console.log("pet api responded");
 
-  const handleSubmit = (e) => {
-    setZip(e.target);
-  };
-
-  function getDogs(zip) {
-    console.log(petApi);
+  function getDogs() {
     petApi
-      .getLotsOfDogs(zip)
+      .getLotsOfDogs()
       .then((res) => {
         console.log(res.data);
         setDogs(res.data.animals);
@@ -55,9 +49,16 @@ export default function Homepage() {
         <NavBar />
       </div>
       <h1>Enter a zipcode to see adoptable dogs near you!</h1>
-      <form className="zip-input" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Enter Zip Code" name="location" />
-      </form>
+      <input
+        type="text"
+        className="zip-code-input"
+        name="location"
+        placeholder="Zip Code"
+        onChange={(e) => setZip(e.target.value)}
+        value={zip}
+      />
+      <br />
+      <br />
       <div>
         {dogs.map((d) => (
           <DogCard key={d.id} {...d} />

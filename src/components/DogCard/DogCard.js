@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useApi } from "../../services/axios.service";
 import "./dogCard.css";
+import { Context } from "../../App";
 
 export default function DogCard({
   id,
@@ -12,12 +13,21 @@ export default function DogCard({
   url,
   primary_photo_cropped,
 }) {
+  const { state } = useContext(Context);
   var { primary, secondary } = breeds;
   var dog = {
     dogId: id,
     dogName: name,
     url: url,
+    imageUrl: primary_photo_cropped.small,
   };
+
+  if (state.user) {
+    var dog = {
+      ...dog,
+      userId: state.user.id,
+    };
+  }
 
   const api = useApi();
 
@@ -29,7 +39,7 @@ export default function DogCard({
     }
   };
 
-  function handleSavingDog() {
+  function handleLovingDog() {
     api
       .addDogToLovedList(dog)
       .then((res) => {
@@ -45,12 +55,14 @@ export default function DogCard({
     <div className="dog-card-root">
       <div className="dog-card">
         <div>{getPhoto()}</div>
-        <button onClick={handleSavingDog}>Click to love me!</button>
+        <button onClick={handleLovingDog}>Click to love me!</button>
         <h1>{name}</h1>
-        <h3>{breeds.primary}</h3>
-        <h3>{gender}</h3>
-        <h3>{age}</h3>
-        <h3>{size}</h3>
+        <div className="dog-info">
+          <p>Breed: {breeds.primary}</p>
+          <p>Sex: {gender}</p>
+          <p>Age: {age}</p>
+          <p>Size: {size}</p>
+        </div>
       </div>
     </div>
   );

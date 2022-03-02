@@ -1,8 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
 .App {
   text-align: center;
   --darkest: #355c7d;
   --darker: #6c5b7b;
-  --dark: #c06c84;
   --light: #f67280;
   --lightest: #f8b195;
 
@@ -11,8 +12,14 @@
 
   background-color: var(--lightest);
   color: var(--darker);
+
+  font-family: "Fjalla One", sans-serif;
 }
 
-.zip-input {
-  text-align: center;
+.zip-code-input {
+  font: inherit;
+  font-size: 15pt;
+  text-align: right;
+  border: solid 0.2rem var(--light);
+  color: var(--darker);
 }

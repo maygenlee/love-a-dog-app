@@ -8,7 +8,7 @@ import { useLocalStorage } from "../../services/localStorage.service";
 export default function LoginPage() {
   return (
     <div className="login">
-      <h1>Welcome!</h1>
+      <h1>Welcome to Love-A-Dog!</h1>
       <LoginForm />
       <hr />
       <Link to="/signup">
@@ -69,7 +69,6 @@ function LoginForm() {
             name="email"
             value={user.email}
             onChange={handleChange}
-            placeholder="Email"
             required
           />
           <br />
@@ -80,7 +79,6 @@ function LoginForm() {
             name="password"
             value={user.password}
             onChange={handleChange}
-            placeholder="password"
             required
           />
           <br />

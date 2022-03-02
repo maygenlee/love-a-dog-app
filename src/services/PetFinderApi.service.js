@@ -16,8 +16,12 @@ function getDogById(id) {
   return api.get(`/animals/${id}`);
 }
 
-function getLotsOfDogs(zip) {
+function getLotsOfDogs() {
   return api.get(`/animals?type=Dog&location=29412&distance=5`);
+}
+
+function getDogsByZipCode(zip) {
+  return api.get(`/animals?type=Dog&location=${zip}&distance=5`);
 }
 
 function getNewToken() {
@@ -47,6 +51,7 @@ function usePetFinderApi() {
     getNewToken,
     updateAuthToken,
     getLotsOfDogs,
+    getDogsByZipCode,
   };
 }
 

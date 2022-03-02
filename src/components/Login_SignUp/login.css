@@ -1,37 +1,44 @@
 .login {
   background-color: white;
   height: 100%;
-  font-size: 20pt;
+  font: inherit;
+}
+.login h1 {
+  font-size: 34pt;
 }
 .login label {
   display: inline-block;
   width: 5em;
   text-align: right;
   margin-right: 0.5rem;
+  font-size: 19pt;
 }
 .login input {
-  font-size: 20pt;
+  font-size: 16pt;
+  border-color: var(--darker);
 }
 .login button {
+  font: inherit;
   border: none;
   cursor: pointer;
 }
 .login button[type="submit"] {
   margin-top: 1rem;
   font-weight: 900;
-  background-color: cornflowerblue;
-  font-size: 24pt;
+  background-color: var(--light);
+  color: var(--darker);
+  font-size: 25pt;
 }
 .login button[type="button"] {
-  background-color: rgb(150, 183, 245);
-  font-size: 19pt;
+  background-color: var(--lightest);
+  color: var(--darker);
+  font-size: 16pt;
 }
 .login button[type="submit"]:hover {
-  background-color: rgb(7, 84, 228);
+  transform: scale(1.1);
 }
 .login button[type="button"]:hover {
-  background-color: rgb(57, 122, 243);
-  font-weight: 800;
+  transform: scale(1.1);
 }
 
 .login .email-taken {

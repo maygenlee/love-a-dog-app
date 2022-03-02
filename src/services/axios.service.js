@@ -17,8 +17,14 @@ const api = {
   getLovedDogsByUserId: (userId) => {
     return axios.get(`${URL}/dogs/lovedList/${userId}`);
   },
+  addDogToSavedList: (id) => {
+    return axios.put(`${URL}/dogs/savedList/${id}`);
+  },
   addDogToLovedList: (dog) => {
     return axios.post(`${URL}/dogs`, dog);
+  },
+  deleteDogFromList: (id) => {
+    return axios.delete(`${URL}/dogs/${id}`);
   },
 };
 

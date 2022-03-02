@@ -61,10 +61,6 @@
   border-radius: 6px;
 }
 
-.nav-bar-root .dropdown-parent:hover > .hidden-menu {
-  display: block;
-}
-
 .nav-bar-root button {
   border: none;
   font: inherit;
@@ -102,4 +98,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
+}
+.nav-bar-root.mobile .hamburger-icon {
+  font-size: x-large;
 }

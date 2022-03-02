@@ -1,12 +1,26 @@
 .dog-card-root img {
-  width: 200px;
+  width: 175px;
 }
 .dog-card-root {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 1rem;
-  row-gap: 1.5rem;
+  display: inline-block;
 }
 .dog-card {
   display: block;
+  border: solid 0.75rem var(--darkest);
+}
+.dog-card-root button {
+  border: solid 0.15rem var(--light);
+  font: inherit;
+  font-size: 15pt;
+  padding: 0.25rem;
+  background-color: white;
+  color: var(--light);
+}
+.dog-card-root button:hover {
+  background-color: var(--darker);
+}
+.dog-info .delete {
+  position: relative;
+  top: 0;
+  right: 0;
 }

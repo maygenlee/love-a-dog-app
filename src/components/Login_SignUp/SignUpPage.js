@@ -26,7 +26,7 @@ export default function SignUpPage() {
 
   return (
     <div className="login">
-      <h1>Sign Up Now!</h1>
+      <h1>Sign Up Now For Love-A-Dog!</h1>
       <SignUpForm onSubmit={attemptSignUp} api={api} />
       <hr />
       <Link to="/login">
