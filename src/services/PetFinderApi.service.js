@@ -21,7 +21,7 @@ function getLotsOfDogs() {
 }
 
 function getDogsByZipCode(zip) {
-  return api.get(`/animals?type=Dog&location=${zip}&distance=5`);
+  return api.get(`/animals?type=Dog&location=${zip}&distance=10`);
 }
 
 function getNewToken() {

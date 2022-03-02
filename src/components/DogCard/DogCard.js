@@ -54,7 +54,7 @@ export default function DogCard({
   return (
     <div className="dog-card-root">
       <div className="dog-card">
-        <div>{getPhoto()}</div>
+        <div className="img-container">{getPhoto()}</div>
         <button onClick={handleLovingDog}>Click to love me!</button>
         <h1>{name}</h1>
         <div className="dog-info">

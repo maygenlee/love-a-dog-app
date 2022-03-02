@@ -24,6 +24,18 @@ export default function UserPage() {
       });
   }
 
+  function getLovedDogs() {
+    return dogs.filter((dog) => dog.status === 1);
+  }
+
+  function deleteDog(id) {
+    setDogs(dogs.filter((d) => d.id !== id));
+  }
+
+  function makeDogCard(dog) {
+    return <DogHouseCard key={dog.id} {...dog} onDogDeleted={deleteDog} />;
+  }
+
   useEffect(() => {
     getListByUser(userId);
   }, []);
@@ -35,9 +47,15 @@ export default function UserPage() {
         <h1>Welcome to your Dog House!</h1>
       </div>
       <div>
-        {dogs.map((d) => (
-          <DogHouseCard key={d.id} value={d.id} {...d} />
-        ))}
+        <div>
+          <h2>Loved List:</h2>
+          {getLovedDogs().map((d) => makeDogCard(d))}
+        </div>
+        <br />
+        <div>
+          <h2>Saved List:</h2>
+          {dogs.filter((dog) => dog.status === 2).map((d) => makeDogCard(d))}
+        </div>
       </div>
     </div>
   );

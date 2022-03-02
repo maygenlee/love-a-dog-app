@@ -1,26 +1,56 @@
-.dog-card-root img {
-  width: 175px;
-}
 .dog-card-root {
   display: inline-block;
+  /* this is the parent element */
+  position: relative;
+}
+.dog-card .img-container {
+  width: 200px;
+  height: 200px;
+  display: grid;
+  /* place-content: center; */
+  overflow: hidden;
+}
+.dog-card-root img {
+  width: 100%;
 }
 .dog-card {
   display: block;
-  border: solid 0.75rem var(--darkest);
+  padding: 0.5rem;
 }
 .dog-card-root button {
   border: solid 0.15rem var(--light);
   font: inherit;
-  font-size: 15pt;
+  font-size: 11pt;
   padding: 0.25rem;
   background-color: white;
   color: var(--light);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .dog-card-root button:hover {
   background-color: var(--darker);
 }
-.dog-info .delete {
-  position: relative;
+.delete {
+  border: solid 0.1rem var(--light);
+  font: inherit;
+  background-color: white;
+  color: var(--light);
+
+  position: absolute;
   top: 0;
   right: 0;
+
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 10pt;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+  user-select: none;
+}
+.delete:active {
+  background-color: var(--darker);
 }
