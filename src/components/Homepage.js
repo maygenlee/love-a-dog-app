@@ -8,6 +8,7 @@ import "../App.css";
 export default function Homepage() {
   var [dogs, setDogs] = useState([]);
   var [zip, setZip] = useState("");
+  var [inputTimeout, setInputTimeout] = useState(null);
 
   const petApi = usePetFinderApi();
 
@@ -23,6 +24,29 @@ export default function Homepage() {
         // if(err.response.status)
       });
   }
+
+  function getDogsByZipCode() {
+    petApi.getDogsByZipCode(zip).then((res) => {
+      console.log(res.data);
+      setDogs(res.data.animals);
+    });
+  }
+
+  useEffect(() => {
+    console.log("zip was updated: ", zip);
+    clearTimeout(inputTimeout);
+    setInputTimeout(
+      setTimeout(() => {
+        if (zip.length > 5) {
+          setZip(zip.substring(0, 5));
+        }
+        if (zip.length === 5) {
+          // valid zip code (maybe)
+          getDogsByZipCode();
+        }
+      }, 1000)
+    );
+  }, [zip]);
 
   useEffect(() => {
     if (petApi.isReady()) {
