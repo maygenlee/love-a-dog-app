@@ -51,7 +51,7 @@ export default function UserPage() {
   function makeDogCard(dog) {
     return (
       <DogHouseCard
-        key={dog.id}
+        key={dog.dogId}
         {...dog}
         onDogDeleted={deleteDog}
         onStatusChange={handleStatusChange}

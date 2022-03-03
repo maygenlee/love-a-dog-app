@@ -25,6 +25,7 @@ export default function DogCard({
   };
 
   const api = useApi();
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const getPhoto = () => {
     if (!primary_photo_cropped) {
@@ -48,7 +49,8 @@ export default function DogCard({
         .addDogToLovedList(dog)
         .then((res) => {
           const dog = res.data;
-          console.log(dog);
+          setIsButtonClicked(true);
+          //window.location.reload();
           return (isLoved = true);
         })
         .catch((err) => {
@@ -63,6 +65,11 @@ export default function DogCard({
         <div className="img-container">{getPhoto()}</div>
         <h3>{name}</h3>
         {isLoved ? (
+          <button>Loved</button>
+        ) : (
+          <button onClick={handleLovingDog}>Click to love me!</button>
+        )}
+        {isButtonClicked ? (
           <button>Loved</button>
         ) : (
           <button onClick={handleLovingDog}>Click to love me!</button>

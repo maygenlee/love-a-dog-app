@@ -35,6 +35,7 @@ export default function DogHouseCard({
         console.log("dog saved!");
         window.open(url);
         status++;
+        window.location.reload();
         // setState(dogs.filter(d => d.id !== id))
       })
       .catch((err) => {
