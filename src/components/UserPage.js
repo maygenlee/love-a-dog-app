@@ -28,12 +28,35 @@ export default function UserPage() {
     return dogs.filter((dog) => dog.status === 1);
   }
 
+  function getSavedDogs() {
+    return dogs.filter((dog) => dog.status === 2);
+  }
+
   function deleteDog(id) {
     setDogs(dogs.filter((d) => d.id !== id));
   }
 
+  function handleStatusChange(id) {
+    setDogs(
+      dogs.map((d) => {
+        if (d.id !== id) {
+          return d;
+        } else {
+          return { ...d, status: 2 };
+        }
+      })
+    );
+  }
+
   function makeDogCard(dog) {
-    return <DogHouseCard key={dog.id} {...dog} onDogDeleted={deleteDog} />;
+    return (
+      <DogHouseCard
+        key={dog.id}
+        {...dog}
+        onDogDeleted={deleteDog}
+        onStatusChange={handleStatusChange}
+      />
+    );
   }
 
   useEffect(() => {
@@ -48,13 +71,16 @@ export default function UserPage() {
       </div>
       <div>
         <div>
-          <h2>Loved List:</h2>
+          <h2>Your Loved Dogs:</h2>
           {getLovedDogs().map((d) => makeDogCard(d))}
         </div>
         <br />
         <div>
-          <h2>Saved List:</h2>
-          {dogs.filter((dog) => dog.status === 2).map((d) => makeDogCard(d))}
+          <h1>
+            Make a donation in honor of the pet to get to save and name them!
+          </h1>
+          <h2>Your Saved Dogs:</h2>
+          {getSavedDogs().map((d) => makeDogCard(d))}
         </div>
       </div>
     </div>

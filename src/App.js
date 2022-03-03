@@ -22,6 +22,11 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("app use effect");
+    console.log(state);
+  }, [state.user]);
+
   return (
     <Context.Provider
       value={{

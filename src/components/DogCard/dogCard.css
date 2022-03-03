@@ -2,37 +2,55 @@
   display: inline-block;
   /* this is the parent element */
   position: relative;
+  margin: 1rem;
+  width: 200px;
+
+  border-radius: 8px;
+  overflow: hidden;
 }
 .dog-card .img-container {
-  width: 200px;
   height: 200px;
   display: grid;
   /* place-content: center; */
   overflow: hidden;
+  padding-bottom: none;
+  margin-bottom: none;
 }
 .dog-card-root img {
   width: 100%;
 }
 .dog-card {
   display: block;
-  padding: 0.5rem;
 }
 .dog-card-root button {
   border: solid 0.15rem var(--light);
+  border-radius: 6px;
   font: inherit;
-  font-size: 11pt;
+  font-size: 12pt;
   padding: 0.25rem;
   background-color: white;
   color: var(--light);
   position: absolute;
   top: 0;
   left: 0;
+  cursor: pointer;
+
+  display: none; /* shows on hover */
 }
 .dog-card-root button:hover {
   background-color: var(--darker);
 }
+.dog-card-root:hover button {
+  display: initial;
+}
+
+.dog-card-root:hover .delete {
+  display: initial;
+}
+
 .delete {
   border: solid 0.1rem var(--light);
+  border-radius: 4px;
   font: inherit;
   background-color: white;
   color: var(--light);
@@ -41,16 +59,44 @@
   top: 0;
   right: 0;
 
-  width: 1.5em;
-  height: 1.5em;
-  font-size: 10pt;
+  width: 1.2em;
 
   display: grid;
   place-items: center;
 
   cursor: pointer;
   user-select: none;
+  display: none;
 }
 .delete:active {
   background-color: var(--darker);
+}
+
+h3 {
+  display: block;
+  padding: 0.7rem;
+  margin: 0;
+  background-color: white;
+}
+
+h2 {
+  color: var(--light);
+}
+
+.dog-card input {
+  font: inherit;
+  font-size: 15pt;
+  text-align: center;
+  border: none;
+  color: var(--darkest);
+}
+.dog-info {
+  border-bottom: solid 0.5rem white;
+  border-left: solid 0.5rem white;
+  border-right: solid 0.5rem white;
+  padding-top: 1rem;
+}
+
+.dog-info p:first-child {
+  margin-top: 0;
 }

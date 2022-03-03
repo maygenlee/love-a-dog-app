@@ -39,7 +39,9 @@ export default function NavBar({ links }) {
             </span>
           </Link>
         </span>
-        <h1>Love-A-Dog</h1>
+        <Link to={`/`}>
+          <h1>Love-A-Dog</h1>
+        </Link>
 
         {links?.map((link, i) => {
           if (Array.isArray(link)) {
@@ -102,7 +104,9 @@ export default function NavBar({ links }) {
             </span>
           </Link>
         </span>
-        <h1>Love-A-Dog</h1>
+        <Link to={`/`}>
+          <h1>Love-A-Dog</h1>
+        </Link>
         <span
           className="hamburger-icon"
           onClick={() => {

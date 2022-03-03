@@ -1,22 +1,25 @@
 import React from "react";
 import DogCard from "./DogCard/DogCard";
 import NavBar from "./NavBar/NavBar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { usePetFinderApi } from "../services/PetFinderApi.service";
+import { useApi } from "../services/axios.service";
+import { Context } from "../App";
 import "../App.css";
 
 export default function Homepage() {
   var [dogs, setDogs] = useState([]);
+  var [lovedDogs, setLovedDogs] = useState([]);
   var [zip, setZip] = useState("");
   var [inputTimeout, setInputTimeout] = useState(null);
-
+  const api = useApi();
   const petApi = usePetFinderApi();
+  const { state } = useContext(Context);
 
   function getDogs() {
     petApi
       .getLotsOfDogs()
       .then((res) => {
-        console.log(res.data);
         setDogs(res.data.animals);
       })
       .catch((err) => {
@@ -27,25 +30,34 @@ export default function Homepage() {
 
   function getDogsByZipCode() {
     petApi.getDogsByZipCode(zip).then((res) => {
-      console.log(res.data);
       setDogs(res.data.animals);
     });
   }
 
+  function getListByUser() {
+    api
+      .getLovedDogsByUserId(state.user.id)
+      .then((res) => {
+        setLovedDogs(res.data.dogs);
+        console.log("loved: ", res.data.dogs);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   useEffect(() => {
-    console.log("zip was updated: ", zip);
     clearTimeout(inputTimeout);
-    setInputTimeout(
-      setTimeout(() => {
-        if (zip.length > 5) {
-          setZip(zip.substring(0, 5));
-        }
-        if (zip.length === 5) {
+    if (zip.length > 5) {
+      setZip(zip.substring(0, 5));
+    } else {
+      setInputTimeout(
+        setTimeout(() => {
           // valid zip code (maybe)
           getDogsByZipCode();
-        }
-      }, 1000)
-    );
+        }, 1000)
+      );
+    }
   }, [zip]);
 
   useEffect(() => {
@@ -67,6 +79,26 @@ export default function Homepage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (state.user) {
+      getListByUser();
+    }
+  }, [state.user]);
+
+  var dogList = dogs.map((d) => {
+    // find out if this dog is 'loved'
+    let isLoved = false;
+    for (let loved of lovedDogs) {
+      if (d.id === loved.id) {
+        // mark as special
+        isLoved = true;
+        break;
+      }
+    }
+
+    return <DogCard key={d.id} {...d} isLoved={isLoved} />;
+  });
+
   return (
     <div>
       <div className="dogs">
@@ -83,10 +115,28 @@ export default function Homepage() {
       />
       <br />
       <br />
-      <div>
-        {dogs.map((d) => (
+      <div className="dogs-container">
+        {dogs.map((d) => {
+          // find out if this dog is 'loved'
+          let isLoved = false;
+          console.log(d);
+          for (let loved of lovedDogs) {
+            if (d.id == loved.id) {
+              // mark as special
+              isLoved = true;
+              break;
+            }
+          }
+
+          return <DogCard key={d.id} {...d} isLoved={isLoved} />;
+        })}
+
+        {/* {dogs.map((d) => (
           <DogCard key={d.id} {...d} />
-        ))}
+        ))} */}
+        {/* {lovedDogs.map((d) => (
+          <DogCard key={d.id} {...d} />
+        ))} */}
       </div>
     </div>
   );

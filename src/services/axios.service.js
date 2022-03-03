@@ -20,6 +20,9 @@ const api = {
   addDogToSavedList: (id) => {
     return axios.put(`${URL}/dogs/savedList/${id}`);
   },
+  renameDog: (dogName, id) => {
+    return axios.put(`${URL}/dogs/savedList/dog/${id}`, { dogName });
+  },
   addDogToLovedList: (dog) => {
     return axios.post(`${URL}/dogs`, dog);
   },
