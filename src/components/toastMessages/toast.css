@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+.toast-root {
+  width: 20rem;
+  text-align: left;
+  padding: 0.5rem 1rem 0.5rem 3rem;
+  position: relative;
+  font-family: "Fjalla One", sans-serif;
+  color: white;
+  background-color: var(--light);
+  border: solid white 1px;
+  border-radius: 8px;
+}
+.toast-root .icon {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+}
+.toast-root .summary {
+  font-weight: bold;
+  text-transform: uppercase;
+  font: inherit;
+}
+.toast-root .x-button {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.toast-root.success {
+  font: inherit;
+  font-size: large;
+}
+.toast-root.info {
+  background-color: rgb(47, 189, 255);
+  color: rgb(38, 0, 255);
+  border: solid rgb(38, 0, 255) 1px;
+}
+.toast-root.error {
+  background-color: red;
+  color: rgb(131, 1, 1);
+  border: solid rgb(172, 2, 2) 1px;
+}
+.toast-root.warn {
+  background-color: rgba(255, 166, 0, 0.541);
+  color: orange;
+  border: solid orange 1px;
+}
+
+/* animations for sticky / non-stick toasts */
+
+.toast-root {
+  animation-name: fade-in-out;
+  animation-duration: 5000ms;
+  animation-timing-function: ease;
+}
+.toast-root.sticky {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  7% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}

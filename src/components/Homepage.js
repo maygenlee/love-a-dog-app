@@ -6,6 +6,7 @@ import { usePetFinderApi } from "../services/PetFinderApi.service";
 import { useApi } from "../services/axios.service";
 import { Context } from "../App";
 import "../App.css";
+import Loader from "./Loader/Loader";
 
 export default function Homepage() {
   var [dogs, setDogs] = useState([]);
@@ -15,11 +16,13 @@ export default function Homepage() {
   const api = useApi();
   const petApi = usePetFinderApi();
   const { state } = useContext(Context);
+  const [isLoading, setIsLoading] = useState(false);
 
   function getDogs() {
     petApi
       .getLotsOfDogs()
       .then((res) => {
+        setIsLoading(true);
         setDogs(res.data.animals);
       })
       .catch((err) => {
@@ -30,6 +33,7 @@ export default function Homepage() {
 
   function getDogsByZipCode() {
     petApi.getDogsByZipCode(zip).then((res) => {
+      setIsLoading(true);
       setDogs(res.data.animals);
     });
   }
@@ -46,6 +50,10 @@ export default function Homepage() {
       });
   }
 
+  function addDogToLovedList(newDog) {
+    setLovedDogs([...lovedDogs, newDog]);
+  }
+
   useEffect(() => {
     clearTimeout(inputTimeout);
     if (zip.length > 5) {
@@ -54,8 +62,9 @@ export default function Homepage() {
       setInputTimeout(
         setTimeout(() => {
           // valid zip code (maybe)
+          setIsLoading(true);
           getDogsByZipCode();
-        }, 1000)
+        }, 3000)
       );
     }
   }, [zip]);
@@ -84,6 +93,12 @@ export default function Homepage() {
       getListByUser();
     }
   }, [state.user]);
+
+  useEffect(() => {
+    if (dogs.length > 0) {
+      setIsLoading(false);
+    }
+  }, [dogs]);
 
   var dogList = dogs.map((d) => {
     // find out if this dog is 'loved'
@@ -115,29 +130,33 @@ export default function Homepage() {
       />
       <br />
       <br />
-      <div className="dogs-container">
-        {dogs.map((d) => {
-          // find out if this dog is 'loved'
-          let isLoved = false;
-          console.log(d);
-          for (let loved of lovedDogs) {
-            if (d.id == loved.id) {
-              // mark as special
-              isLoved = true;
-              break;
+      {isLoading ? (
+        <div>
+          <Loader />
+        </div>
+      ) : (
+        <div className="dogs-container">
+          {dogs.map((d) => {
+            // find out if this dog is 'loved'
+            let isLoved = false;
+            for (let loved of lovedDogs) {
+              if (d.id == loved.id) {
+                // mark as special
+                isLoved = true;
+                break;
+              }
             }
-          }
-
-          return <DogCard key={d.id} {...d} isLoved={isLoved} />;
-        })}
-
-        {/* {dogs.map((d) => (
-          <DogCard key={d.id} {...d} />
-        ))} */}
-        {/* {lovedDogs.map((d) => (
-          <DogCard key={d.id} {...d} />
-        ))} */}
-      </div>
+            return (
+              <DogCard
+                key={d.id}
+                {...d}
+                addDogToLovedList={addDogToLovedList}
+                isLoved={isLoved}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import SignUpPage from "./components/Login_SignUp/SignUpPage";
 import UserPage from "./components/UserPage";
 import { createContext, useEffect, useState } from "react";
 import { useLocalStorage } from "./services/localStorage.service";
+import { ToastProvider } from "./components/toastMessages/ToastService";
 
 export var Context = createContext();
 
@@ -36,16 +37,18 @@ function App() {
     >
       <div className="App">
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Homepage />}></Route>
-            <Route path="/login" element={<LoginPage />}></Route>
-            <Route path="/signup" element={<SignUpPage />}></Route>
-            <Route path="/user/:userId" element={<UserPage />}></Route>
-            <Route
-              path="*"
-              element={<div>404 - page does not exist</div>}
-            ></Route>
-          </Routes>
+          <ToastProvider>
+            <Routes>
+              <Route path="/" element={<Homepage />}></Route>
+              <Route path="/login" element={<LoginPage />}></Route>
+              <Route path="/signup" element={<SignUpPage />}></Route>
+              <Route path="/user/:userId" element={<UserPage />}></Route>
+              <Route
+                path="*"
+                element={<div>404 - page does not exist</div>}
+              ></Route>
+            </Routes>
+          </ToastProvider>
         </BrowserRouter>
       </div>
     </Context.Provider>

@@ -59,7 +59,7 @@ export default function NavBar({ links }) {
 
       {/*search bar here ie <SearchBar /> */}
 
-      <div>
+      <div className="long-nav">
         {state.user ? (
           <>
             <Link to={`/user/${state.user.id}`}>

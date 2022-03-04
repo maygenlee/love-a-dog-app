@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useApi } from "../../services/axios.service";
 import "./dogCard.css";
 import { Context } from "../../App";
+import { useToasts } from "../toastMessages/ToastService";
 
 export default function DogCard({
   id,
@@ -13,6 +14,7 @@ export default function DogCard({
   url,
   primary_photo_cropped,
   isLoved,
+  addDogToLovedList,
 }) {
   const { state } = useContext(Context);
   var { primary, secondary } = breeds;
@@ -21,10 +23,18 @@ export default function DogCard({
     dogName: name,
     url: url,
     imageUrl: primary_photo_cropped?.small,
-    userId: state.user.id,
+    isLoved: isLoved,
   };
 
+  if (state.user) {
+    var userId = state.user.id;
+    var dog = {
+      ...dog,
+      userId: userId,
+    };
+  }
   const api = useApi();
+  var toast = useToasts();
 
   const getPhoto = () => {
     if (!primary_photo_cropped) {
@@ -49,7 +59,20 @@ export default function DogCard({
         .then((res) => {
           const dog = res.data;
           //window.location.reload();
-          return (isLoved = true);
+          toast.add({
+            message: "Dog loved! View in your doghouse.",
+          });
+          addDogToLovedList({
+            id,
+            breeds,
+            name,
+            gender,
+            age,
+            size,
+            url,
+            primary_photo_cropped,
+            isLoved,
+          });
         })
         .catch((err) => {
           console.error(err);
