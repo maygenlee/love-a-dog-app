@@ -62,7 +62,6 @@ export default function Homepage() {
       setInputTimeout(
         setTimeout(() => {
           // valid zip code (maybe)
-          setIsLoading(true);
           getDogsByZipCode();
         }, 3000)
       );
