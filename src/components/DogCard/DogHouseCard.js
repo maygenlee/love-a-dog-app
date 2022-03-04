@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useApi } from "../../services/axios.service";
 import "./dogCard.css";
 
 import { useToasts } from "../toastMessages/ToastService";
+import { Context } from "../../App";
 
 export default function DogHouseCard({
   dogName,
@@ -13,6 +14,7 @@ export default function DogHouseCard({
   onDogDeleted,
   onStatusChange,
 }) {
+  const { state } = useContext(Context);
   const api = useApi();
   const [newName, setNewName] = useState(dogName);
   const [timer, setTimer] = useState(null);
@@ -21,7 +23,7 @@ export default function DogHouseCard({
 
   function deleteDog() {
     api
-      .deleteDogFromList(id)
+      .deleteDogFromList(id, state.user)
       .then((res) => {
         console.log("dog was deleted");
         onDogDeleted(id);
@@ -33,7 +35,7 @@ export default function DogHouseCard({
 
   function handleSaving() {
     api
-      .addDogToSavedList(id)
+      .addDogToSavedList(id, state.user)
       .then((res) => {
         onStatusChange(status);
         toast.add({
@@ -53,7 +55,7 @@ export default function DogHouseCard({
   function handleNameChange() {
     if (newName !== dogName) {
       api
-        .renameDog(newName, id)
+        .renameDog(newName, id, state.user)
         .then((res) => {
           console.log(res);
         })

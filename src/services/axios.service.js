@@ -17,16 +17,19 @@ const api = {
   getLovedDogsByUserId: (userId) => {
     return axios.get(`${URL}/dogs/lovedList/${userId}`);
   },
-  addDogToSavedList: (id) => {
-    return axios.put(`${URL}/dogs/savedList/${id}`);
+  addDogToSavedList: (id, user) => {
+    return axios.put(`${URL}/dogs/savedList/${id}`, { token: user.token });
   },
-  renameDog: (dogName, id) => {
-    return axios.put(`${URL}/dogs/savedList/dog/${id}`, { dogName });
+  renameDog: (dogName, id, user) => {
+    return axios.put(`${URL}/dogs/savedList/dog/${id}`, {
+      dogName,
+      token: user.token,
+    });
   },
-  addDogToLovedList: (dog) => {
-    return axios.post(`${URL}/dogs`, dog);
+  addDogToLovedList: (dog, user) => {
+    return axios.post(`${URL}/dogs`, { ...dog, token: user.token });
   },
-  deleteDogFromList: (id) => {
+  deleteDogFromList: (id, user) => {
     return axios.delete(`${URL}/dogs/${id}`);
   },
 };

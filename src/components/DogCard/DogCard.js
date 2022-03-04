@@ -55,7 +55,7 @@ export default function DogCard({
       return;
     } else {
       api
-        .addDogToLovedList(dog)
+        .addDogToLovedList(dog, state.user)
         .then((res) => {
           const dog = res.data;
           //window.location.reload();
