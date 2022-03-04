@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useApi } from "../../services/axios.service";
 import "./dogCard.css";
 
+import { useToasts } from "../toastMessages/ToastService";
+
 export default function DogHouseCard({
   dogName,
   id,
@@ -14,6 +16,8 @@ export default function DogHouseCard({
   const api = useApi();
   const [newName, setNewName] = useState(dogName);
   const [timer, setTimer] = useState(null);
+
+  var toast = useToasts();
 
   function deleteDog() {
     api
@@ -32,7 +36,10 @@ export default function DogHouseCard({
       .addDogToSavedList(id)
       .then((res) => {
         onStatusChange(status);
-        console.log("dog saved!");
+        toast.add({
+          message: "Dog saved! You may now rename your dog.",
+          sticky: true,
+        });
         window.open(url);
         status++;
         window.location.reload();
